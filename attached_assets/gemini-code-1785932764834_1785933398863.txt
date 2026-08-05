@@ -1,0 +1,70 @@
+Tu es un développeur Front-End Expert spécialisé en HTML5, CSS3 pur et Vanilla JavaScript (ES6+).
+Ton objectif est de créer l'intégralité du site web ( Monsieur Faucar) vitrine statique / portfolio personnel en suivant STRICTEMENT les directives du cahier des charges ci-dessous.
+
+==================================================
+1. RÈGLES TECHNIQUES STRICTES
+==================================================
+- AUCUN framework JS (Pas de React, Vue, Angular, Alpine, etc.).
+- AUCUN framework CSS (Pas de Bootstrap, Tailwind, Bulma, etc.).
+- AUCUN backend ni base de données.
+- Tout le contenu (textes, projets, compétences, FAQ, témoignages) doit être directement intégré dans les fichiers HTML.
+- Utilise exclusivement HTML5 sémantique, CSS3 moderne (Variables, Flexbox, Grid) et Vanilla JavaScript ES6+.
+- Le code doit être propre, performant, responsive (Mobile-First) et optimisé SEO.
+
+==================================================
+2. STRUCTURE DU PROJET À CRÉER
+==================================================
+portfolio-project/
+├── index.html
+├── pages/
+│   ├── a-propos.html
+│   ├── mes-services.html
+│   ├── portfolio.html
+│   ├── projets-en-cours.html
+│   ├── pourquoi-me-choisir.html
+│   ├── mon-processus.html
+│   ├── temoignages.html
+│   ├── faq.html
+│   └── contact.html
+├── css/
+│   ├── main.css
+│   ├── variables.css
+│   ├── components.css
+│   └── responsive.css
+├── js/
+│   ├── main.js
+│   ├── theme.js
+│   ├── animation.js
+│   └── contact.js
+└── assets/
+    ├── images/
+    └── icons/
+
+==================================================
+3. SPÉCIFICATIONS DESIGN & CSS
+==================================================
+- Mode Sombre par défaut (#0f172a pour le fond, #1e293b pour les cartes, #2563eb et #06b6d4 pour les accents).
+- Mode Clair optionnel (#f8fafc pour le fond, #ffffff pour les cartes, #0f172a pour le texte).
+- Utilise des Variables CSS dans `css/variables.css` pour piloter le thème.
+- Implémente un basculeur (toggle) Clair/Sombre sauvegardé dans LocalStorage (`js/theme.js`).
+- Layout responsive testé pour mobile (320px+), tablette (768px+) et desktop (1024px+).
+
+==================================================
+4. SPÉCIFICATIONS ET INTERACTIONS PAR PAGE
+==================================================
+- Navigation commune : Menu responsive avec burger mobile, indicateur de défilement (barre de progression en haut de page) et bouton "Retour en haut" (Back to Top) apparaissant après 300px de scroll.
+- index.html (Accueil) : Hero section dynamique (effet Typewriter en Vanilla JS), présentation synthétique, chiffres clés animés avec un compteur JS au scroll, et CTA vers la page Contact.
+- pages/a-propos.html : Parcours, diplômes, jauges de compétences (skill bars) qui s'animent lors du scroll via Intersection Observer, et bouton de téléchargement de CV.
+- pages/portfolio.html : Grille de projets avec filtres de recherche par catégorie/mots-clés en JS sans rechargement de page. Au clic sur un projet, ouvrir une fenêtre modale (Modal) avec détails complets.
+- pages/projets-en-cours.html : Cartes avec badges stylisés "En cours de réalisation" et jauge d'avancement (ex: 75%).
+- pages/mes-services.html & mon-processus.html : Cartes de services avec effet hover 3D / Card lift et timeline interactive des étapes du projet.
+- pages/faq.html : Accordéon interactif pour déplier les réponses, accompagné d'une barre de recherche en temps réel pour filtrer les questions.
+- pages/contact.html : 
+  * Formulaire fonctionnel connecté à EmailJS (Nom, Email, Sujet, Message) avec validation Regex des champs.
+  * Bouton et lien direct WhatsApp configuré avec le numéro : +229 0161013119.
+  * Liens réseaux sociaux : Facebook, LinkedIn, GitHub, Email direct.
+
+==================================================
+5. LIVRABLE ATTENDU
+==================================================
+Génère tous les fichiers HTML, CSS et JS nécessaires avec du contenu de démonstration pertinent, propre et entièrement fonctionnel.

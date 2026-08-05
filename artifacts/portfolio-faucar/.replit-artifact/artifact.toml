@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Portfolio Monsieur Faucar"
+description = "Site vitrine / portfolio personnel multi-pages pour Monsieur Faucar. Inclut une page d'accueil avec effet typewriter et compteurs animés, des pages À propos, Services, Portfolio avec filtres, Projets en cours, Mon Processus, Témoignages, FAQ accordéon, et Contact avec EmailJS et lien WhatsApp. Mode sombre par défaut avec bascule clair/sombre sauvegardée en localStorage."
+version = "1.0.0"
+id = "artifacts/portfolio-faucar"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 20640
+
+[services.development]
+run = "pnpm --filter @workspace/portfolio-faucar run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/portfolio-faucar", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/portfolio-faucar/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20640"
+BASE_PATH = "/"
