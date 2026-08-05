@@ -1,7 +1,8 @@
 import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Filter } from 'lucide-react';
+import { Search, Filter, ExternalLink } from 'lucide-react';
 import { ProjectModal, type Project } from '@/components/ProjectModal';
+import imgPortfolio from '@assets/img-portfolio_1785936519612.png';
 
 const CATEGORIES = ['Tous', 'Web', 'Mobile', 'Design', 'E-commerce'];
 
@@ -83,6 +84,8 @@ const PROJECTS: Project[] = [
   }
 ];
 
+const PORTFOLIO_EXTERNAL_URL = 'https://stellular-elf-ac537e.netlify.app/';
+
 export default function Portfolio() {
   const [activeCategory, setActiveCategory] = useState('Tous');
   const [searchQuery, setSearchQuery] = useState('');
@@ -102,12 +105,61 @@ export default function Portfolio() {
       <div className="container mx-auto px-6 py-12 md:py-20">
         <div className="max-w-3xl mb-12">
           <h1 className="text-4xl md:text-5xl font-display font-bold mb-6">
-            Mon <span className="text-primary">Portfolio</span>
+            Mes <span className="text-primary">Réalisations</span>
           </h1>
           <p className="text-lg text-muted-foreground">
             Découvrez une sélection de mes derniers projets. Des solutions techniques robustes enveloppées dans des designs épurés.
           </p>
         </div>
+
+        {/* External Portfolio Card */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mb-14 group"
+        >
+          <a
+            href={PORTFOLIO_EXTERNAL_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="block relative rounded-3xl overflow-hidden border border-primary/30 hover:border-primary/70 transition-all duration-300 shadow-2xl shadow-primary/10 hover:shadow-primary/20"
+          >
+            {/* Glow */}
+            <div className="absolute -inset-0.5 bg-gradient-to-r from-primary to-secondary rounded-3xl blur opacity-0 group-hover:opacity-20 transition duration-500 pointer-events-none" />
+
+            <div className="relative flex flex-col md:flex-row items-center gap-0 bg-card">
+              {/* Image */}
+              <div className="w-full md:w-72 h-64 md:h-56 flex-shrink-0 overflow-hidden">
+                <img
+                  src={imgPortfolio}
+                  alt="Portfolio de Faucar AMETEPE"
+                  className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                />
+              </div>
+              {/* Text */}
+              <div className="flex-1 p-8">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold mb-4 border border-primary/20">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
+                  </span>
+                  Portfolio en ligne
+                </div>
+                <h2 className="text-2xl md:text-3xl font-display font-bold mb-3 group-hover:text-primary transition-colors">
+                  Voir mon Portfolio complet
+                </h2>
+                <p className="text-muted-foreground mb-6 leading-relaxed">
+                  Accédez à mon portfolio interactif en ligne pour découvrir l'ensemble de mes projets, compétences et réalisations dans leur meilleure présentation.
+                </p>
+                <span className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-primary-foreground font-medium text-sm hover:bg-primary/90 transition-colors">
+                  Ouvrir le Portfolio
+                  <ExternalLink size={16} />
+                </span>
+              </div>
+            </div>
+          </a>
+        </motion.div>
 
         {/* Filters & Search */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">

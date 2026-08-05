@@ -10,7 +10,7 @@ const NAV_LINKS = [
   { path: '/', label: 'Accueil' },
   { path: '/a-propos', label: 'À Propos' },
   { path: '/mes-services', label: 'Services' },
-  { path: '/portfolio', label: 'Portfolio' },
+  { path: '/realisations', label: 'Réalisations' },
   { path: '/projets-en-cours', label: 'En cours' },
   { path: '/mon-processus', label: 'Processus' },
   { path: '/temoignages', label: 'Témoignages' },
@@ -52,7 +52,7 @@ export function Navbar() {
               MF
             </div>
             <span className="font-display font-bold text-xl tracking-tight hidden sm:block">
-              Monsieur Faucar
+              Faucar AMETEPE
             </span>
           </Link>
 

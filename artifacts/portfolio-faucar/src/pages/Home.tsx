@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Code, Terminal, MonitorSmartphone } from 'lucide-react';
 import { useCountUp } from '@/hooks/useCountUp';
 import { useInView } from '@/hooks/useInView';
+import photoFaucar from '@assets/fauacr_1785936519611.jpeg';
 
 export default function Home() {
   const [typedText, setTypedText] = useState('');
@@ -35,13 +36,13 @@ export default function Home() {
   const [statsRef, statsInView] = useInView({ threshold: 0.1 });
   const projectsCount = useCountUp(50, 2000, statsInView);
   const clientsCount = useCountUp(30, 2000, statsInView);
-  const yearsCount = useCountUp(5, 1500, statsInView);
+  const yearsCount = useCountUp(3, 1500, statsInView);
   const satisfactionCount = useCountUp(100, 2000, statsInView);
 
   return (
     <div className="flex-1">
       {/* Hero Section */}
-      <section className="min-h-[80vh] flex flex-col justify-center items-center text-center px-6 relative overflow-hidden">
+      <section className="min-h-[90vh] flex flex-col justify-center items-center text-center px-6 relative overflow-hidden">
         {/* Glow orb */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[120px] pointer-events-none" />
 
@@ -49,8 +50,28 @@ export default function Home() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="max-w-4xl mx-auto z-10"
+          className="max-w-4xl mx-auto z-10 flex flex-col items-center"
         >
+          {/* Photo */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="mb-8 relative"
+          >
+            <div className="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-primary/50 shadow-2xl shadow-primary/30 ring-4 ring-primary/10">
+              <img
+                src={photoFaucar}
+                alt="Faucar AMETEPE"
+                className="w-full h-full object-cover object-top"
+              />
+            </div>
+            <div className="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-green-500 border-2 border-background flex items-center justify-center">
+              <span className="animate-ping absolute inline-flex h-4 w-4 rounded-full bg-green-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500" />
+            </div>
+          </motion.div>
+
           <div className="mb-6 inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/30 bg-primary/10 text-primary text-sm font-medium">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
@@ -62,7 +83,7 @@ export default function Home() {
           <h1 className="text-5xl md:text-7xl font-display font-bold tracking-tight mb-6">
             Bonjour, je suis <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
-              Monsieur Faucar
+              Faucar AMETEPE
             </span>
           </h1>
           
@@ -87,7 +108,7 @@ export default function Home() {
               <ArrowRight size={18} />
             </Link>
             <Link 
-              href="/portfolio" 
+              href="/realisations" 
               className="w-full sm:w-auto px-8 py-4 rounded-full bg-card border border-border text-card-foreground font-medium hover:bg-muted transition-all flex items-center justify-center gap-2"
             >
               Voir mon travail

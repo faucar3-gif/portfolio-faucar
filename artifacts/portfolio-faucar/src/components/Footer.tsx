@@ -28,7 +28,7 @@ export function Footer() {
                 MF
               </div>
               <span className="font-display font-bold text-lg tracking-tight">
-                Monsieur Faucar
+                Faucar AMETEPE
               </span>
             </Link>
             <p className="text-muted-foreground mb-6 max-w-sm">
@@ -55,7 +55,7 @@ export function Footer() {
             <ul className="space-y-2">
               <li><Link href="/a-propos" className="text-muted-foreground hover:text-primary transition-colors">À Propos</Link></li>
               <li><Link href="/mes-services" className="text-muted-foreground hover:text-primary transition-colors">Services</Link></li>
-              <li><Link href="/portfolio" className="text-muted-foreground hover:text-primary transition-colors">Portfolio</Link></li>
+              <li><Link href="/realisations" className="text-muted-foreground hover:text-primary transition-colors">Réalisations</Link></li>
               <li><Link href="/contact" className="text-muted-foreground hover:text-primary transition-colors">Contact</Link></li>
             </ul>
           </div>
@@ -72,7 +72,7 @@ export function Footer() {
         
         <div className="mt-12 pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-muted-foreground">
-            &copy; {currentYear} Monsieur Faucar. Tous droits réservés.
+            &copy; {currentYear} Faucar AMETEPE. Tous droits réservés.
           </p>
           <div className="text-sm text-muted-foreground flex gap-4">
             <Link href="#" className="hover:text-primary transition-colors">Mentions légales</Link>

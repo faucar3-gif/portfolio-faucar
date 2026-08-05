@@ -1,6 +1,6 @@
 import { useInView } from '@/hooks/useInView';
 import { motion } from 'framer-motion';
-import { Download, GraduationCap, Briefcase, Award } from 'lucide-react';
+import { GraduationCap, Briefcase, Award } from 'lucide-react';
 
 const SKILLS = [
   { name: 'HTML/CSS', level: 95 },
@@ -13,23 +13,23 @@ const SKILLS = [
 
 const EXPERIENCE = [
   {
-    title: 'Consultant IT Indépendant',
-    company: 'Monsieur Faucar',
-    period: '2020 - Présent',
-    desc: 'Accompagnement de startups et PME dans leur transformation digitale. Création d\'applications web sur-mesure et conseil en architecture.',
+    title: 'Développeur Web Freelance',
+    company: 'Faucar AMETEPE — Indépendant',
+    period: '2023 - Présent',
+    desc: 'Conception et développement de sites vitrines, applications web et solutions numériques pour des entreprises et des particuliers. Gestion de projets de A à Z, du cahier des charges à la mise en ligne.',
   },
   {
-    title: 'Lead Développeur Full-Stack',
-    company: 'TechVision Agency',
-    period: '2018 - 2020',
-    desc: 'Direction d\'une équipe de 4 développeurs. Refonte complète du système interne et migration vers une architecture micro-services.',
+    title: 'Étudiant en Informatique',
+    company: 'Université — Bénin',
+    period: '2024 - 2027',
+    desc: 'Formation en Licence Informatique avec une spécialisation en développement web et logiciel. Participation à des projets académiques, hackathons et initiatives open source.',
   },
   {
-    title: 'Développeur Front-End',
-    company: 'Digital Studio',
-    period: '2016 - 2018',
-    desc: 'Développement d\'interfaces interactives pour des clients grand compte. Intégration de maquettes pixel-perfect.',
-  }
+    title: 'Créateur de Solutions Numériques',
+    company: 'Projets personnels & académiques',
+    period: '2022 - Présent',
+    desc: 'Développement d\'applications web et mobiles en autodidacte, construction d\'une expertise progressive en technologies modernes (React, Node.js, bases de données).',
+  },
 ];
 
 export default function APropos() {
@@ -45,16 +45,8 @@ export default function APropos() {
             À <span className="text-primary">Propos</span>
           </h1>
           <p className="text-lg text-muted-foreground leading-relaxed">
-            Passionné par la technologie depuis mon plus jeune âge, je combine une solide 
-            expertise technique avec une sensibilité prononcée pour le design. Mon objectif : 
-            transformer vos idées complexes en interfaces élégantes et performantes.
+            Faucar AMETEPE est un étudiant en informatique et développeur web béninois qui souhaite bâtir une véritable activité professionnelle en créant des applications, des sites web et des solutions numériques destinées aux entreprises et aux particuliers, tout en développant sa visibilité en ligne. Passionné par la technologie depuis mon plus jeune âge, je combine une solide expertise technique avec une sensibilité prononcée pour le design. Mon objectif : transformer vos idées complexes en interfaces élégantes et performantes.
           </p>
-          <div className="mt-8">
-            <button className="px-6 py-3 rounded-full bg-card border border-border hover:bg-muted transition-colors flex items-center gap-2 font-medium">
-              <Download size={18} />
-              Télécharger mon CV
-            </button>
-          </div>
         </div>
 
         {/* Skills */}
@@ -117,16 +109,22 @@ export default function APropos() {
             </h2>
             <div className="space-y-8">
               <div className="p-6 rounded-xl glass-panel relative overflow-hidden">
-                <div className="absolute top-0 left-0 w-1 h-full bg-primary" />
-                <div className="text-sm text-primary font-medium mb-2">2014 - 2016</div>
-                <h3 className="font-bold text-lg mb-1">Master en Ingénierie Logicielle</h3>
-                <p className="text-muted-foreground">Université Paris Descartes</p>
+                <div className="absolute top-0 left-0 w-1 h-full bg-secondary" />
+                <div className="text-sm text-secondary font-medium mb-2">En cours — Juin 2027</div>
+                <h3 className="font-bold text-lg mb-1">Licence en Informatique</h3>
+                <p className="text-muted-foreground">Spécialisation Développement Web & Logiciel</p>
+                <span className="mt-3 inline-block text-xs px-3 py-1 rounded-full bg-secondary/10 text-secondary border border-secondary/20 font-medium">
+                  Diplôme prévu — Juin 2027
+                </span>
               </div>
               <div className="p-6 rounded-xl glass-panel relative overflow-hidden">
-                <div className="absolute top-0 left-0 w-1 h-full bg-secondary" />
-                <div className="text-sm text-secondary font-medium mb-2">2011 - 2014</div>
-                <h3 className="font-bold text-lg mb-1">Licence Informatique</h3>
-                <p className="text-muted-foreground">Université d'Abomey-Calavi</p>
+                <div className="absolute top-0 left-0 w-1 h-full bg-primary" />
+                <div className="text-sm text-primary font-medium mb-2">Obtenu en 2024</div>
+                <h3 className="font-bold text-lg mb-1">Baccalauréat (BAC)</h3>
+                <p className="text-muted-foreground">Série scientifique — Bénin</p>
+                <span className="mt-3 inline-block text-xs px-3 py-1 rounded-full bg-primary/10 text-primary border border-primary/20 font-medium">
+                  Diplome obtenu — 2024
+                </span>
               </div>
             </div>
           </div>
