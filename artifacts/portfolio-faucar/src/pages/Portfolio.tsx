@@ -102,7 +102,7 @@ const IN_PROGRESS = [
     id: 'ip1',
     title: 'ETS GAMAZID',
     image: imgGamazid,
-    progress: 45,
+    progress: 85,
     description: {
       fr: "Site e-commerce dynamique pour l'entreprise ETS GAMAZID. Catalogue de produits, gestion de panier, paiement intégré et panneau d'administration sur mesure.",
       en: "Dynamic e-commerce website for ETS GAMAZID company. Product catalog, cart management, integrated payment and custom admin panel.",

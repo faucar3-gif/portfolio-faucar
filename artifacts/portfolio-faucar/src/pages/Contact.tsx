@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -5,12 +6,22 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useToast } from '@/hooks/use-toast';
-import { Mail, MapPin, Phone, Send, Info } from 'lucide-react';
+import { Mail, MapPin, Phone, Send, Info, MessageCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useLang } from '@/contexts/LanguageContext';
+import emailjs from '@emailjs/browser';
 
-const WHATSAPP_URL = 'https://wa.me/2290161013119';
+const WHATSAPP_URL = `https://wa.me/${import.meta.env.VITE_WHATSAPP_NUMBER || '2290161013119'}`;
+
+const PREDEFINED_SUBJECTS = [
+  { id: 'web-dev', label: 'Développement Web', icon: '🌐' },
+  { id: 'design', label: 'Design & UI/UX', icon: '🎨' },
+  { id: 'consultation', label: 'Consultation', icon: '💡' },
+  { id: 'maintenance', label: 'Maintenance & Support', icon: '🔧' },
+  { id: 'other', label: 'Autre (à préciser)', icon: '✏️' },
+];
 
 const WhatsAppIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20">
@@ -22,27 +33,91 @@ export default function Contact() {
   const { toast } = useToast();
   const { t } = useLang();
   const ct = t.contact;
+  const [selectedSubjectType, setSelectedSubjectType] = useState<string>('web-dev');
+  const [showSubjects, setShowSubjects] = useState<boolean>(true);
 
   const contactSchema = z.object({
-    name: z.string().min(2),
-    email: z.string().email(),
-    subject: z.string().min(5),
-    message: z.string().min(10),
+    name: z.string().min(2, 'Le nom doit contenir au moins 2 caractères'),
+    email: z.string().email('Email invalide'),
+    whatsapp: z.string().optional().refine(
+      (val) => !val || /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/im.test(val),
+      'Numéro WhatsApp invalide'
+    ),
+    subjectType: z.string(),
+    subjectCustom: z.string().optional(),
+    subject: z.string(),
+    message: z.string().min(10, 'Le message doit contenir au moins 10 caractères'),
+  }).superRefine((data, ctx) => {
+    if (data.subjectType === 'other' && (!data.subjectCustom || data.subjectCustom.trim().length < 3)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['subjectCustom'],
+        message: 'Veuillez préciser le sujet (au moins 3 caractères)',
+      });
+    }
   });
+
   type ContactFormValues = z.infer<typeof contactSchema>;
 
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactSchema),
-    defaultValues: { name: '', email: '', subject: '', message: '' },
+    defaultValues: { 
+      name: '', 
+      email: '', 
+      whatsapp: '',
+      subjectType: 'web-dev',
+      subjectCustom: '',
+      subject: 'Développement Web',
+      message: '' 
+    },
   });
 
-  const onSubmit = (data: ContactFormValues) => {
-    console.log('Form data:', data);
-    toast({ title: 'Configuration EmailJS requise', description: 'Configurez vos clés EmailJS pour activer l\'envoi réel.', duration: 5000 });
-    setTimeout(() => {
-      toast({ title: 'Message envoyé ! (Simulation)', description: 'Merci pour votre message. Je vous répondrai rapidement.' });
+  const onSubmit = async (data: ContactFormValues) => {
+    const finalSubject = data.subjectType === 'other' ? data.subjectCustom : data.subject;
+    
+    try {
+      // Préparer le message pour WhatsApp (format simplifié sans caractères spéciaux)
+      const whatsappMessage = `Nouveau message du portfolio\n\nNom: ${data.name}\nEmail: ${data.email}\nWhatsApp: ${data.whatsapp || 'Non renseigne'}\nSujet: ${finalSubject}\n\nMessage:\n${data.message}`;
+
+      // Ouvrir WhatsApp avec le message pré-rempli
+      const whatsappUrl = `https://wa.me/2290161013119?text=${encodeURIComponent(whatsappMessage)}`;
+      window.open(whatsappUrl, '_blank');
+
+      // Envoyer aussi par email comme backup
+      try {
+        const templateParams = {
+          to_name: 'Faucar AMETEPE',
+          from_name: data.name,
+          from_email: data.email,
+          whatsapp: data.whatsapp || 'Non renseigné',
+          subject: finalSubject,
+          message: data.message,
+        };
+
+        await emailjs.send(
+          import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_285axoo',
+          import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_jck7668',
+          templateParams,
+          import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'VPhXc8psc2H3gyDuc'
+        );
+      } catch (emailError) {
+        console.error('EmailJS backup failed:', emailError);
+      }
+
+      toast({ 
+        title: 'WhatsApp ouvert !', 
+        description: 'Veuillez confirmer l\'envoi du message dans WhatsApp.' 
+      });
       form.reset();
-    }, 1000);
+      setSelectedSubjectType('web-dev');
+    } catch (error) {
+      console.error('Error:', error);
+      toast({ 
+        title: 'Erreur lors de l\'envoi', 
+        description: 'Une erreur est survenue. Veuillez me contacter directement par WhatsApp.',
+        variant: 'destructive'
+      });
+    }
   };
 
   return (
@@ -84,6 +159,22 @@ export default function Contact() {
                 <div>
                   <h4 className="font-semibold mb-1">{ct.phone}</h4>
                   <a href="tel:+2290161013119" className="text-muted-foreground hover:text-secondary transition-colors">
+                    +229 01 61 01 31 19
+                  </a>
+                  <span className="text-muted-foreground"> / </span>
+                  <a href="tel:+2290155468880" className="text-muted-foreground hover:text-secondary transition-colors">
+                    01 55 46 88 80 
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-full bg-green-500/10 flex items-center justify-center text-green-500 shrink-0">
+                  <MessageCircle size={20} />
+                </div>
+                <div>
+                  <h4 className="font-semibold mb-1">WhatsApp</h4>
+                  <a href={WHATSAPP_URL} target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-green-500 transition-colors">
                     +229 01 61 01 31 19
                   </a>
                 </div>
@@ -158,14 +249,106 @@ export default function Contact() {
 
                 <FormField
                   control={form.control}
-                  name="subject"
+                  name="whatsapp"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>{ct.formSubject}</FormLabel>
-                      <FormControl><Input placeholder={ct.formSubjectPH} className="bg-background" {...field} /></FormControl>
+                      <FormLabel>WhatsApp (optionnel)</FormLabel>
+                      <FormControl><Input placeholder="+229 01 00 00 00" type="tel" className="bg-background" {...field} /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
+                />
+
+                {/* Subject Selection Button */}
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full py-6 rounded-xl font-semibold text-base border-2 hover:bg-muted transition-all"
+                  onClick={() => setShowSubjects(!showSubjects)}
+                >
+                  {showSubjects ? '▼ Masquer les sujets' : '▶ Choisir un sujet'}
+                </Button>
+
+                {/* Subject Selection - Only show when button is clicked */}
+                {showSubjects && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    className="space-y-4"
+                  >
+                    <FormField
+                      control={form.control}
+                      name="subjectType"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <RadioGroup 
+                              value={field.value} 
+                              onValueChange={(value) => {
+                                field.onChange(value);
+                                setSelectedSubjectType(value);
+                                // Auto-update subject field based on selection
+                                const selectedSubject = PREDEFINED_SUBJECTS.find(s => s.id === value);
+                                if (selectedSubject && value !== 'other') {
+                                  form.setValue('subject', selectedSubject.label);
+                                }
+                              }}
+                              className="space-y-3"
+                            >
+                              {PREDEFINED_SUBJECTS.map((subj) => (
+                                <div key={subj.id} className="flex items-center space-x-3 p-3 rounded-lg border border-border hover:bg-muted/50 transition-colors cursor-pointer">
+                                  <RadioGroupItem value={subj.id} id={subj.id} />
+                                  <label 
+                                    htmlFor={subj.id} 
+                                    className="flex-1 cursor-pointer flex items-center gap-2 font-medium text-sm"
+                                  >
+                                    <span className="text-lg">{subj.icon}</span>
+                                    {subj.label}
+                                  </label>
+                                </div>
+                              ))}
+                            </RadioGroup>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    {/* Custom Subject Input - Only show when "other" is selected */}
+                    {selectedSubjectType === 'other' && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                      >
+                        <FormField
+                          control={form.control}
+                          name="subjectCustom"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Précisez votre sujet</FormLabel>
+                              <FormControl>
+                                <Input 
+                                  placeholder="Décrivez brièvement votre demande..." 
+                                  className="bg-background" 
+                                  {...field} 
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </motion.div>
+                    )}
+                  </motion.div>
+                )}
+
+                {/* Hidden subject field for form submission */}
+                <input 
+                  type="hidden" 
+                  {...form.register('subject')} 
+                  value={selectedSubjectType === 'other' ? form.getValues('subjectCustom') || '' : form.getValues('subject')} 
                 />
 
                 <FormField
@@ -182,15 +365,18 @@ export default function Contact() {
                   )}
                 />
 
-                <Button
-                  type="submit"
-                  className="w-full md:w-auto px-8 py-6 rounded-full text-base gap-2 glow-effect"
-                  disabled={form.formState.isSubmitting}
-                >
-                  {form.formState.isSubmitting ? ct.sending : (
-                    <><span>{ct.send}</span><Send size={18} /></>
-                  )}
-                </Button>
+                <div className="flex flex-col md:flex-row gap-4">
+                  <Button
+                    type="submit"
+                    className="flex-1 px-8 py-6 rounded-full text-base gap-2 glow-effect"
+                    disabled={form.formState.isSubmitting}
+                  >
+                    {form.formState.isSubmitting ? ct.sending : (
+                      <><span>{ct.send}</span><Send size={18} /></>
+                    )}
+                  </Button>
+                 
+                </div>
               </form>
             </Form>
           </motion.div>

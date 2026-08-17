@@ -5,9 +5,14 @@ import { ArrowRight, Code, Terminal, MonitorSmartphone, Star, Quote, ChevronDown
 import { useCountUp } from '@/hooks/useCountUp';
 import { useInView } from '@/hooks/useInView';
 import photoFaucar from '@assets/fauacr_1785936519611.jpeg';
+import testimonialSophie from '@assets/testimonial-sophie.jpg';
+import testimonialMarc from '@assets/testimonial-marc.jpg';
+import testimonialJulie from '@assets/testimonial-julie.jpg';
 import { useLang } from '@/contexts/LanguageContext';
 
 const WHATSAPP_URL = 'https://wa.me/2290161013119';
+
+const TESTIMONIAL_PHOTOS = [testimonialSophie, testimonialMarc, testimonialJulie];
 
 const WhatsAppIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
@@ -54,15 +59,15 @@ export default function Home() {
   }, [roles]);
 
   const [statsRef, statsInView] = useInView({ threshold: 0.1 });
-  const projectsCount = useCountUp(50, 2000, statsInView);
-  const clientsCount = useCountUp(30, 2000, statsInView);
-  const yearsCount = useCountUp(3, 1500, statsInView);
-  const satisfactionCount = useCountUp(100, 2000, statsInView);
+  const projectsCount  = useCountUp(25,  2000, statsInView);
+  const clientsCount   = useCountUp(20,  2000, statsInView);
+  const yearsCount     = useCountUp(3,   1500, statsInView);
+  const satisfactionCount = useCountUp(80, 2000, statsInView);
 
   const stats = [
-    { label: ht.stats.projects, value: projectsCount, suffix: '+' },
-    { label: ht.stats.clients, value: clientsCount, suffix: '+' },
-    { label: ht.stats.years, value: yearsCount, suffix: '+' },
+    { label: ht.stats.projects,     value: projectsCount,     suffix: '+' },
+    { label: ht.stats.clients,      value: clientsCount,      suffix: '+' },
+    { label: ht.stats.years,        value: yearsCount,        suffix: '+' },
     { label: ht.stats.satisfaction, value: satisfactionCount, suffix: '%' },
   ];
 
@@ -208,17 +213,17 @@ export default function Home() {
             <p className="text-muted-foreground text-lg">{ht.testimonialsSubtitle}</p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {t.testimonials.map((testimonial, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.5 }}
-                className="bg-card border border-border p-8 rounded-3xl relative hover:-translate-y-2 transition-transform duration-300"
+                transition={{ delay: i * 0.12, duration: 0.5 }}
+                className="bg-card border border-border p-8 rounded-3xl relative hover:-translate-y-2 transition-transform duration-300 flex flex-col"
               >
-                <Quote className="absolute top-8 right-8 text-primary/10 w-16 h-16" />
+                <Quote className="absolute top-8 right-8 text-primary/10 w-14 h-14" />
 
                 <div className="flex items-center gap-1 mb-6 text-yellow-500">
                   {[...Array(5)].map((_, index) => (
@@ -231,14 +236,16 @@ export default function Home() {
                   ))}
                 </div>
 
-                <p className="text-foreground/90 italic mb-8 relative z-10 leading-relaxed min-h-[100px]">
+                <p className="text-foreground/90 italic mb-8 relative z-10 leading-relaxed flex-1">
                   "{testimonial.content}"
                 </p>
 
-                <div className="flex items-center gap-4 mt-auto border-t border-border pt-6">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center text-white font-display font-bold text-lg shadow-inner flex-shrink-0">
-                    {testimonial.avatar}
-                  </div>
+                <div className="flex items-center gap-4 border-t border-border pt-6">
+                  <img
+                    src={TESTIMONIAL_PHOTOS[i]}
+                    alt={testimonial.name}
+                    className="w-14 h-14 rounded-full object-cover ring-2 ring-primary/30 flex-shrink-0"
+                  />
                   <div>
                     <h4 className="font-display font-bold">{testimonial.name}</h4>
                     <p className="text-sm text-muted-foreground">{testimonial.role}</p>
